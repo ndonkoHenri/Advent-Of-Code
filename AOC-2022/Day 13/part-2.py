@@ -1,4 +1,4 @@
-# https://adventofcode.com/2022/day/12#part2
+# https://adventofcode.com/2022/day/13#part2
 from itertools import zip_longest
 
 # read the file containing the input and store its contents

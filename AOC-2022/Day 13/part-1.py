@@ -1,4 +1,4 @@
-# https://adventofcode.com/2022/day/12#part1
+# https://adventofcode.com/2022/day/13#part1
 
 # read the file containing the input and store its contents
 with open("input.txt", "rt") as f:
