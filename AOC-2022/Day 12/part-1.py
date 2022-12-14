@@ -1,57 +1,43 @@
-# https://adventofcode.com/2022/day/10#part1
+# https://adventofcode.com/2022/day/12#part1
 
 # read the file containing the input and store its contents
-with open("test-input.txt", "rt") as f:
+with open("input.txt", "rt") as f:
     str_input = f.read()
 
 # split the input at line end
 list_input = str_input.split('\n\n')
 
 
-def check_mixed_types(x: list, y: list, debug=False):
-    print(f"- START: {x} VS {y}")
+def fix_mixed_types(x: list, y: list) -> None:
+    """
+    If the ith element of x is an integer and the ith element of y is a list, then the ith element of x is converted to
+    a list. Similarly, if the ith element of x is a list and the ith element of y is an integer, then the ith element
+    of y is converted to a list
+    """
     for i in range(min(len(x), len(y))):
-
         if (isinstance(x[i], int) and isinstance(y[i], list)) or (isinstance(x[i], list) and isinstance(y[i], int)):
             if isinstance(x[i], int):
                 x[i] = eval("[x[i]]")
             else:
                 y[i] = eval("[y[i]]")
 
-            # print("INT LIST = ",x[i]," ** ", y[i])
-
-        elif isinstance(x[i], list) and isinstance(y[i], list):
-            x[i], y[i] = check_mixed_types(x[i], y[i])
-
-        if debug:
-            print("\t", x[i], "\n\t", y[i], "\n")
-            if isinstance(x[i], list) and isinstance(y[i], list):
-                check_mixed_types(x[i], y[i], True)
-    # print(f"- END: {x} VS {y}")
-    return x, y
+        if isinstance(x[i], list) and isinstance(y[i], list):
+            fix_mixed_types(x[i], y[i])
 
 
 indices = []
 
+# iterate over each pair, and if the left is less than right, then the order is correct -- store the value in 'indices'
 for idx, pair in enumerate(list_input, 1):
-    l1, l2 = list(map(eval, pair.split("\n")))
-    # print(f"- Compare {l1} vs {l2}")
-    # print(f"- {l1} VS {l2}")
-    s1, s2 = check_mixed_types(l1, l2, True)
-    print(f"- END: {s1} VS {s2}")
-    print("\t\t", l1, l1 == s1, s1, l2, s2 == l2, s2)
-    try:
-        if s1 < s2:
-            # print(f"- Compare {l1} vs {l2}")
-            # print('\t- Left side || right order')
-            indices.append(idx)
-        # else:
-        #     print('\t- Right side || wrong order')
+    left, right = list(map(eval, pair.split("\n")))
+    fix_mixed_types(left, right)
 
-    except TypeError as excep:
-        print(f"- {l1} VS {l2}\n- {s1} VS {s2}")
-        # print(f"{l1} VS {l2}")
-        check_mixed_types(l1, l2, True)
-        print(excep, "\n")
+    if left < right:
+        print(f"- Compare {left} vs {right}")
+        print('\t- Left side || right order')
+        indices.append(idx)
+    else:
+        print('\t- Right side || wrong order')
 
-print(f"\n{indices=}\nSum of Indices={sum(indices)}")
+# print out the answer to the question
+print(f"\nSum of Indices={sum(indices)}")
