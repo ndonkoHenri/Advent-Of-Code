@@ -51,10 +51,10 @@ def compare_even(iterator: list):
     try:
         packets.sort()  # if this is successful, then we are sure to have correctly sorted the packets
     except TypeError:
-        comparison_odd(a)
+        compare_odd(a)
 
 
-def comparison_odd(iterator: list):
+def compare_odd(iterator: list):
     """
     This is an odd comparison: the first element is added to a new list (not sorted), and then the rest of the list
     is sorted by comparing the second element with the third, the fourth with the fifth, and so on.
@@ -71,6 +71,7 @@ def comparison_odd(iterator: list):
             else:
                 a.append(z)
                 a.append(y)
+        # trying to append the last value in the pair, excluding None - ex: ([1,2], None)
         if y is None:
             a.append(z)
         elif z is None:
