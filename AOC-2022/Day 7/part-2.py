@@ -1,4 +1,4 @@
-# https://adventofcode.com/2022/day/7#part1
+# https://adventofcode.com/2022/day/7#part2
 from collections import defaultdict
 
 # read the file containing the input and store its contents
